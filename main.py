@@ -1,44 +1,34 @@
 import argparse
+from core.csv_handlers import read_csv
+from commands.filter_command import WhereCommand
+from commands.aggregate_command import AggregateCommand
+from commands.pipeline import CommandPipeline
+from tabulate import tabulate
 
-def parse_args():
-    parser = argparse.ArgumentParser(
-        description='Обработка CSV файла с фильтрацией и агрегацией.'
-    )
-    parser.add_argument(
-        '--file',
-        type=str,
-        required=True,
-        help='Путь к CSV файлу'
-    )
-    parser.add_argument(
-        '--where',
-        type=str,
-        help='Условие фильтрации в формате column<operator>value, например price>100'
-    )
-    parser.add_argument(
-        '--aggregate',
-        type=str,
-        help='Агрегация в формате column=operation, например rating=avg'
-    )
-    return parser.parse_args()
+def build_pipeline(args):
+    pipeline = CommandPipeline()
+    if args.where:
+        pipeline.add(WhereCommand(args.where))
+    if args.aggregate:
+        col, op = args.aggregate.split("=")
+        pipeline.add(AggregateCommand(col, op))
+    return pipeline
 
 def main():
-    args = parse_args()
-    if args.where and args.aggregate:
-        pass
-        #TODO команду фильтрации и агрегации
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--file")
+    parser.add_argument("--where", help="Пример: row['age'] > 30")
+    parser.add_argument("--aggregate", help="Пример: salary:sum")
+    args = parser.parse_args()
 
-    if args.where:
-        pass
-        #TODO команду фильтрации
+    data = read_csv(args.file)
+    pipeline = build_pipeline(args)
+    result = pipeline.run(data)
 
-    if args.aggregate:
-        pass
-        #TODO команду агрегации
+    if isinstance(result, list) and result and isinstance(result[0], dict):
+        print(tabulate(result, headers="keys", tablefmt="fancy_grid"))
+    else:
+        print(result)
 
-    if not args.where and not args.aggregate:
-        pass
-        #TODO вьюкоманда или исключение
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
