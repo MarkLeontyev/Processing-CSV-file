@@ -7,4 +7,4 @@ class CommandPipeline:
     
     def run(self, data): 
         for command in self.commands: data = command.execute(data) 
-        return data 
+        return data

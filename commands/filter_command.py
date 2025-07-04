@@ -1,21 +1,21 @@
-from core.csv_handlers import read_csv
-from tabulate import tabulate
-
 from commands.base_command import BaseCommand
+from core.validate import validate_condition_operator, SUPPORTED_OPERATORS
 
 class WhereCommand(BaseCommand):
     def __init__(self, condition_str):
-        self.column, self.operator, self.value = self._parse_condition(condition_str)
+        self.column,
+        self.operator,
+        self.value = self._parse_condition(condition_str)
         
-    def _parse_condition(self, condition_str):
-        """Разбирает условие на колонку, оператор и значение"""
-        operators = ['=', '>', '<']
+    def _parse_condition(self, condition_str: str):
+        validate_condition_operator(condition_str)
+        operators = SUPPORTED_OPERATORS
         for op in operators:
             if op in condition_str:
                 column, value = condition_str.split(op, 1)
                 return column.strip(), op, self._convert_value(value.strip())
-        raise ValueError(f"Недопустимый оператор в условии: '{condition_str}'")
-
+        raise ValueError(f"Некорректное условие: '{condition_str}'")
+    
     def _convert_value(self, value_str):
         """Конвертирует строку значения в число, если возможно"""
         try:
@@ -25,8 +25,7 @@ class WhereCommand(BaseCommand):
 
     def execute(self, data):
         if not data:
-            return []
-            
+            return [] 
         results = []
         for row in data:
             try:

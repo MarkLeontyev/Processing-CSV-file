@@ -1,6 +1,5 @@
 import csv
 import ast
-from datetime import datetime
 
 def read_csv(filepath):
     with open(filepath, encoding='utf-8') as f:

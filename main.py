@@ -3,7 +3,7 @@ from core.csv_handlers import read_csv
 from commands.filter_command import WhereCommand
 from commands.aggregate_command import AggregateCommand
 from commands.pipeline import CommandPipeline
-from tabulate import tabulate
+from utils.console_utils import print_table
 
 def build_pipeline(args):
     pipeline = CommandPipeline()
@@ -26,7 +26,7 @@ def main():
     result = pipeline.run(data)
 
     if isinstance(result, list) and result and isinstance(result[0], dict):
-        print(tabulate(result, headers="keys", tablefmt="fancy_grid"))
+        print_table(result)
     else:
         print(result)
 
