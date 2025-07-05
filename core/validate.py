@@ -1,10 +1,9 @@
 SUPPORTED_OPERATORS = {'=', '<', '>'}
 UNSUPPORTED_OPERATORS = {'>=', '<=', '!=', '=='}
 
-def validate_condition_operator(condition_str: str) -> None:
+def validate_filter_operation(condition_str: str) -> None:
     """
     Проверяет, что в условии нет неподдерживаемых операторов.
-    Если встречается неподдерживаемый оператор, выбрасывает ValueError с понятным сообщением.
     """
     for op in UNSUPPORTED_OPERATORS:
         if op in condition_str:

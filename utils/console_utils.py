@@ -1,5 +1,7 @@
-from typing import List, Dict, Any, Optional
+from typing import Any, Dict, List, Optional
+
 from tabulate import tabulate
+
 
 def print_table(
     data: List[Dict[str, Any]],
@@ -8,10 +10,6 @@ def print_table(
 ) -> None:
     """
     Красиво выводит список словарей в консоль в виде таблицы.
-
-    :param data: список словарей с данными
-    :param headers: заголовки таблицы, по умолчанию ключи словарей
-    :param tablefmt: стиль оформления таблицы
     """
     if not data:
         print("Нет данных для отображения")

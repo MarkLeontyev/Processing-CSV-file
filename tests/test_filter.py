@@ -1,4 +1,5 @@
 import pytest
+
 from commands.filter_command import WhereCommand
 
 

@@ -1,9 +1,11 @@
 import argparse
-from core.csv_handlers import read_csv
-from commands.filter_command import WhereCommand
+
 from commands.aggregate_command import AggregateCommand
+from commands.filter_command import WhereCommand
 from commands.pipeline import CommandPipeline
+from core.csv_handlers import read_csv
 from utils.console_utils import print_table
+
 
 def build_pipeline(args):
     pipeline = CommandPipeline()

@@ -1,4 +1,5 @@
 import pytest
+
 from commands.aggregate_command import AggregateCommand
 
 
